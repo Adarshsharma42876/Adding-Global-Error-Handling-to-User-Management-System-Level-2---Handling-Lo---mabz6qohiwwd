@@ -13,6 +13,12 @@ This middleware function is intended to be used as part of a chain of middleware
 function errorHandler(err, req, res, next) {
     try {
         //Write your code here
+        if (err.name === 'JsonWebTokenError') {
+      res.status(400).json({ message: 'JWT Error' });
+    } else {
+      console.error(err.stack);
+      res.status(500).json({ message: 'Something went wrong' });
+    }
     } catch (err) {
         console.error(err.stack);
         res.status(500).json({ message: 'Internal server error' });
